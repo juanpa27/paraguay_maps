@@ -19,7 +19,7 @@ export default function ThemeSelector() {
   };
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown dropdown-end relative z-50">
       <label tabIndex={0} className="btn btn-ghost m-1 normal-case">
         <svg
           width="20"

@@ -9,20 +9,21 @@ function App() {
     <Layout>
       <Header />
       <main className="flex-grow">
-        <div className="max-w-sm md:max-w-md lg:max-w-lg mx-auto p-4">
-        <MapCard
-        imageUrl="/images/3.jpg"
-        title="Paraguay Map"
-        description="This is a detailed map of Paraguay showing major cities and natural landmarks."
-        extraData="Population: 7 million"
-      />
-      <MapCard
-        imageUrl="/images/1.jpg"
-        title="Brazil Map"
-        description="A geographical map of Brazil with climate zones."
-        extraData="Area: 8.5 million sq km"
-      />
+      <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
+          <MapCard
+            imageUrl="/images/3.jpg"
+            title="Distritos con mayor proporción de apellidos italianos en Paraguay 🇮🇹"
+            description="Mapa de Paraguay con los distritos que tienen mayor proporción de apellidos italianos."
+            extraData="Fuente: Forebears.io"
+          />
+          <MapCard
+            imageUrl="/images/1.jpg"
+            title="Media de edad Por Departamento en Paraguay 🇵🇾"
+            description="Mapa de Paraguay con la media de edad por departamento."
+            extraData="Fuente: INE"
+          />
         </div>
+        
       </main>
     </Layout>
   );
