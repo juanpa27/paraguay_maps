@@ -2,12 +2,14 @@ import React from "react";
 import Layout from "./components/Layout";
 import Header from "./components/Header";
 import MapCard from "./components/MapCard";
+import HeroParaguay from "./components/HeroParaguay";
 import "./index.css";
 
 function App() {
   return (
     <Layout>
       <Header />
+      <HeroParaguay />
       <main className="flex-grow">
       <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
           <MapCard
