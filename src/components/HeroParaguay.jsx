@@ -1,21 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import 'tailwindcss/tailwind.css';
+import Logo from './Logo';
 
 export default function HeroParaguay() {
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <motion.img
-          src="/images/paraguay-map.png"
-          alt="Mapa de Paraguay"
-          className="w-full max-w-sm rounded-lg shadow-2xl"
+    <div className="hero min-h-screen">
+      <div className="hero-content flex-col lg:flex-row-reverse items-center">
+        <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
-        />
+          style={{
+            filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.4))', // Aplicar sombra directamente al SVG
+          }}
+        >
+          <Logo className="w-full max-w-sm" size={400} />
+        </motion.div>
         <motion.div
-          className="text-left"
+          className="text-left lg:mr-8"
           initial={{ x: '-100vw' }}
           animate={{ x: 0 }}
           transition={{ type: 'spring', stiffness: 50 }}
@@ -25,7 +27,7 @@ export default function HeroParaguay() {
             Explora los mapas de Paraguay, conoce sus distritos, ciudades y paisajes.
             Sumérgete en la riqueza geográfica y cultural que este maravilloso país tiene para ofrecer.
           </p>
-          <button className="btn btn-primary">Explorar Mapas</button>
+          <button className="btn btn-outline btn-primary">Explorar Mapas</button>
         </motion.div>
       </div>
     </div>

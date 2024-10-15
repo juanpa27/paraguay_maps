@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
-
 
 export default function MapCard({ imageUrl, title, description, extraData }) {
   return (
@@ -33,3 +33,10 @@ export default function MapCard({ imageUrl, title, description, extraData }) {
     </div>
   );
 }
+
+MapCard.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  extraData: PropTypes.string,
+};
