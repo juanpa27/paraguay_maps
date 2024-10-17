@@ -5,7 +5,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MapCard from "./components/MapCard";
 import HeroParaguay from "./components/HeroParaguay";
-import Login from "./pages/Login"; 
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
+import Unauthorized from "./pages/Unauthorized";
 import "./index.css";
 
 function App() {
@@ -15,6 +17,14 @@ function App() {
         <Route
           path="/login-admin-secret" // Ruta oculta para el login
           element={<Login />}
+        />
+        <Route
+          path="/admin" // Ruta para la página de administración
+          element={<Admin />}
+        />
+        <Route
+          path="/unauthorized" // Ruta para la página no autorizada
+          element={<Unauthorized />}
         />
         <Route
           path="/"
