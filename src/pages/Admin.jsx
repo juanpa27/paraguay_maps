@@ -11,10 +11,16 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (!user || !token) {
-      // Si no hay un usuario logueado o no hay token, redirigir a la página de no autorizado
-      navigate('/unauthorized');
+    if (!user) {
+      // Intentar recuperar el usuario de localStorage
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        useAuthStore.setState({ user: JSON.parse(storedUser) });
+        setLoading(false); // Finaliza la carga si el usuario está recuperado de localStorage
+      } else {
+        // Si no hay un usuario logueado, redirigir a la página de no autorizado
+        navigate('/unauthorized');
+      }
     } else {
       setLoading(false); // Finaliza la carga si el usuario está logueado
     }
