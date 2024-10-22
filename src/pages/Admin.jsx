@@ -39,12 +39,11 @@ const Admin = () => {
     <Layout>
       <Header />
       <main className="flex-grow">
-        <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
+        <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
           <h1 className="text-3xl font-bold">Bienvenido a la Administración</h1>
           <p>Aquí puedes cargar los datos y gestionar los mapas de Paraguay.</p>
-          
+          <MapForm />
         </div>
-        <MapForm />
       </main>
       <Footer />
     </Layout>
