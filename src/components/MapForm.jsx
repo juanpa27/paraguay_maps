@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { addMap } from "../services/mapService";
 import { useAuthStore } from "../store/useAuthStore";
+
 
 const MapForm = () => {
   const [title, setTitle] = useState("");
@@ -8,9 +9,12 @@ const MapForm = () => {
   const [source, setSource] = useState("");
   const [extradata, setExtraData] = useState("");
   const [category, setCategory] = useState("");
-  const [status, setStatus] = useState(true); // Se mantiene el nombre 'status' para coincidir con la tabla
+  const [status, setStatus] = useState(true);
   const [image, setImage] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const fileInputRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const user = useAuthStore((state) => state.user);
 
@@ -20,8 +24,23 @@ const MapForm = () => {
     }
   };
 
+  // Efecto para ocultar el alert automáticamente después de 4 segundos
+  useEffect(() => {
+    if (message.text) {
+      const timer = setTimeout(() => {
+        setMessage({ text: "", type: "" });
+      }, 5000); // Oculta el alert después de 4 segundos
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setIsButtonDisabled(true);
 
     try {
       const mapData = {
@@ -31,13 +50,13 @@ const MapForm = () => {
         extradata,
         category,
         status,
-        user_id: user?.id, 
+        user_id: user?.id,
       };
 
       await addMap(mapData, image);
 
       // Mensaje de éxito
-      setMessage("Mapa agregado correctamente.");
+      setMessage({ text: "Mapa agregado correctamente.", type: "success" });
       // Limpiar el formulario
       setTitle("");
       setDescription("");
@@ -46,23 +65,30 @@ const MapForm = () => {
       setCategory("");
       setStatus(true);
       setImage(null);
+      // Restablecer el campo de tipo `file`
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
     } catch (err) {
-      setMessage(`Error: ${err.message}`);
+      setMessage({ text: `Error: ${err.message}`, type: "error" });
+    } finally {
+      setIsSubmitting(false);
+      setIsButtonDisabled(false);
     }
   };
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-base-100 shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Agregar un nuevo mapa</h2>
-      {message && <div className="alert alert-info mb-4">{message}</div>}
+
       <form onSubmit={handleSubmit}>
         <div className="form-control mb-4">
-          <label for="titulo" className="label">
+          <label htmlFor="titulo" className="label">
             <span className="label-text">Título</span>
           </label>
           <input
             id="titulo"
-            name="titulo"  
+            name="titulo"
             type="text"
             className="input input-bordered w-full"
             value={title}
@@ -71,7 +97,7 @@ const MapForm = () => {
           />
         </div>
         <div className="form-control mb-4">
-          <label for="desciption" className="label">
+          <label htmlFor="desciption" className="label">
             <span className="label-text">Descripción</span>
           </label>
           <textarea
@@ -84,7 +110,7 @@ const MapForm = () => {
           />
         </div>
         <div className="form-control mb-4">
-          <label for="source" className="label">
+          <label htmlFor="source" className="label">
             <span className="label-text">Fuente</span>
           </label>
           <input
@@ -97,7 +123,7 @@ const MapForm = () => {
           />
         </div>
         <div className="form-control mb-4">
-          <label for="extradata" className="label">
+          <label htmlFor="extradata" className="label">
             <span className="label-text">Extra Data</span>
           </label>
           <input
@@ -110,7 +136,7 @@ const MapForm = () => {
           />
         </div>
         <div className="form-control mb-4">
-          <label for="categpry" className="label">
+          <label htmlFor="categpry" className="label">
             <span className="label-text">Categoría</span>
           </label>
           <select
@@ -130,7 +156,7 @@ const MapForm = () => {
           </select>
         </div>
         <div className="form-control mb-4">
-          <label for="status" className="cursor-pointer label">
+          <label htmlFor="status" className="cursor-pointer label">
             <span className="label-text">Activo</span>
             <input
               id="status"
@@ -143,19 +169,40 @@ const MapForm = () => {
           </label>
         </div>
         <div className="form-control mb-4">
-          <label for="image_url" className="label">
+          <label htmlFor="image_url" className="label">
             <span className="label-text">Imagen</span>
           </label>
           <input
+            ref={fileInputRef}
             id="image_url"
             name="image_url"
             type="file"
             className="file-input file-input-bordered file-input-secondary w-full"
             onChange={handleImageChange}
+            required
           />
         </div>
-        <button type="submit" className="btn btn-primary w-full">
-          Agregar Mapa
+        {message.text && (
+          <div
+            className={`alert mt-4 mb-4 ${
+              message.type === "success" ? "alert-success" : "alert-error"
+            }`}
+          >
+            <div className="flex items-center justify-between w-full">
+              <span>{message.text}</span>
+            </div>
+          </div>
+        )}
+        <button
+          type="submit"
+          className={`btn w-full ${
+            isButtonDisabled
+              ? "btn btn-disabled bg-gray-300 text-gray-500"
+              : "btn btn-primary"
+          }`}
+          disabled={isButtonDisabled}
+        >
+          {isSubmitting ? "Enviando..." : "Agregar Mapa"}
         </button>
       </form>
     </div>

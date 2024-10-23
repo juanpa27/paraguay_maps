@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Layout from "../components/Layout";
 import MapForm from "../components/MapForm";
+import MapsTable from "../components/MapsTable";
 
 const Admin = () => {
   const user = useAuthStore((state) => state.user);
@@ -42,6 +43,7 @@ const Admin = () => {
         <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
           <h1 className="text-3xl font-bold">Bienvenido a la Administración</h1>
           <p>Aquí puedes cargar los datos y gestionar los mapas de Paraguay.</p>
+          <MapsTable />
           <MapForm />
         </div>
       </main>
