@@ -4,32 +4,69 @@ import Logo from './Logo';
 
 export default function HeroParaguay() {
   return (
-    <div className="hero min-h-screen">
+    <section className="hero min-h-screen bg-gradient-to-br from-base-200 to-base-300">
       <div className="hero-content flex-col lg:flex-row-reverse items-center">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
-          style={{
-            filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.4))', // Aplicar sombra directamente al SVG
-          }}
+          className="relative"
         >
-          <Logo className="w-full max-w-sm" size={400} />
+          <motion.div
+            whileHover={{
+              boxShadow: '0 0 0 3px rgba(var(--p), 0.5)',
+              transition: { duration: 0.3 }
+            }}
+            className="rounded-full overflow-hidden"
+          >
+            <Logo className="w-full max-w-sm lg:max-w-md" size={400} />
+          </motion.div>
+          <motion.div
+            className="absolute inset-0 bg-primary opacity-10 rounded-full"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
         </motion.div>
         <motion.div
-          className="text-left lg:mr-8"
+          className="text-left lg:mr-8 max-w-md lg:max-w-lg"
           initial={{ x: '-100vw' }}
           animate={{ x: 0 }}
           transition={{ type: 'spring', stiffness: 50 }}
         >
-          <h1 className="text-5xl font-bold text-primary">Descubre Paraguay</h1>
-          <p className="py-6 max-w-md text-base-content">
+          <h1 className="text-4xl lg:text-5xl font-bold text-primary mb-4">
+            Descubre Paraguay
+          </h1>
+          <p className="py-4 lg:py-6 text-base-content text-lg">
             Explora los mapas de Paraguay, conoce sus distritos, ciudades y paisajes.
             Sumérgete en la riqueza geográfica y cultural que este maravilloso país tiene para ofrecer.
           </p>
-          <button className="btn btn-outline btn-primary">Explorar Mapas</button>
+          <motion.button 
+            className="btn btn-primary"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Explorar mapas de Paraguay"
+          >
+            Explorar Mapas
+          </motion.button>
         </motion.div>
       </div>
-    </div>
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2 }}
+      >
+        {/* Fondo decorativo */}
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#smallGrid)" />
+        </svg>
+      </motion.div>
+    </section>
   );
 }

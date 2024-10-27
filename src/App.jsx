@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import MapCard from "./components/MapCard";
+import MapList from "./components/MapList";
 import HeroParaguay from "./components/HeroParaguay";
+import MapLinks from "./components/Maplinks";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Unauthorized from "./pages/Unauthorized";
 import "./index.css";
+
 
 function App() {
   return (
@@ -31,21 +33,12 @@ function App() {
           element={
             <Layout>
               <Header />
-              <HeroParaguay />
+              <HeroParaguay className="mb-32" />
               <main className="flex-grow">
+                <MapLinks />
                 <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
-                  <MapCard
-                    imageUrl="/images/3.jpg"
-                    title="Distritos con mayor proporción de apellidos italianos en Paraguay 🇮🇹"
-                    description="Mapa de Paraguay con los distritos que tienen mayor proporción de apellidos italianos."
-                    extraData="Fuente: Forebears.io"
-                  />
-                  <MapCard
-                    imageUrl="/images/1.jpg"
-                    title="Media de edad Por Departamento en Paraguay 🇵🇾"
-                    description="Mapa de Paraguay con la media de edad por departamento."
-                    extraData="Fuente: INE"
-                  />
+                
+                  <MapList />
                 </div>
               </main>
               <Footer />
