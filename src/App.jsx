@@ -9,25 +9,33 @@ import MapLinks from "./components/Maplinks";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Unauthorized from "./pages/Unauthorized";
+import ProtectedRoute from "./components/ProtectedRoute"; 
 import "./index.css";
-
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Ruta para el login */}
         <Route
-          path="/login-admin-secret" // Ruta oculta para el login
+          path="/login-admin-secret"
           element={<Login />}
         />
+        {/* Ruta para la página no autorizada */}
         <Route
-          path="/admin" // Ruta para la página de administración
-          element={<Admin />}
-        />
-        <Route
-          path="/unauthorized" // Ruta para la página no autorizada
+          path="/unauthorized"
           element={<Unauthorized />}
         />
+        {/* Ruta protegida para la página de administración */}
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+        {/* Ruta principal */}
         <Route
           path="/"
           element={
@@ -37,7 +45,6 @@ function App() {
               <main className="flex-grow">
                 <MapLinks />
                 <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
-                
                   <MapList />
                 </div>
               </main>

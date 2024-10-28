@@ -1,53 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/useAuthStore";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Layout from "../components/Layout";
-import MapForm from "../components/MapForm";
-import MapsTable from "../components/MapsTable";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Layout from '../components/Layout';
 
 const Admin = () => {
-  const user = useAuthStore((state) => state.user);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    if (!user) {
-      // Intentar recuperar el usuario de localStorage
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        useAuthStore.setState({ user: JSON.parse(storedUser) });
-        setLoading(false); // Finaliza la carga si el usuario está recuperado de localStorage
-      } else {
-        // Si no hay un usuario logueado, redirigir a la página de no autorizado
-        navigate("/unauthorized");
-      }
-    } else {
-      setLoading(false); // Finaliza la carga si el usuario está logueado
-    }
-  }, [user, navigate]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Cargando...</p>
-      </div>
-    );
-  }
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
     <Layout>
-      <Header />
-      <main className="flex-grow">
-        <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl font-bold">Bienvenido a la Administración</h1>
-          <p>Aquí puedes cargar los datos y gestionar los mapas cargados.</p>
-          <MapsTable />
-          <MapForm />
+      <div className="flex flex-col min-h-screen">
+        <Header toggleSidebar={toggleSidebar} />
+        <div className="flex flex-grow">
+          <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+          <main className="flex-grow p-4">
+            <Outlet /> {/* Aquí se renderizarán las rutas anidadas */}
+          </main>
         </div>
-      </main>
-      <Footer />
+        <Footer />
+      </div>
     </Layout>
   );
 };
