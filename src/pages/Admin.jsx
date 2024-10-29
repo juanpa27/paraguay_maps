@@ -4,12 +4,22 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Layout from '../components/Layout';
+import MapForm from '../components/MapForm';
 
 const Admin = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedMap, setSelectedMap] = useState(null); // Nuevo estado para el mapa seleccionado
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleEdit = (map) => {
+    setSelectedMap(map);
+  };
+
+  const closeForm = () => {
+    setSelectedMap(null);
   };
 
   return (
@@ -19,7 +29,11 @@ const Admin = () => {
         <div className="flex flex-grow">
           <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
           <main className="flex-grow p-4">
-            <Outlet /> {/* Aquí se renderizarán las rutas anidadas */}
+            {selectedMap ? (
+              <MapForm mapData={selectedMap} onClose={closeForm} />
+            ) : (
+              <Outlet context={{ handleEdit }} />
+            )}
           </main>
         </div>
         <Footer />

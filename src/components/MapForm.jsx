@@ -1,32 +1,60 @@
-import React from "react";
-import { useMapForm } from '../hooks/useMapForm';
+import React, { useEffect } from "react";
+import { useMapForm } from "../hooks/useMapForm";
+import categories from "../config/categories.json";
 
-  const MapForm = () => {
-    const {
-      title,
-      setTitle,
-      description,
-      setDescription,
-      source,
-      setSource,
-      extradata,
-      setExtraData,
-      category,
-      setCategory,
-      status,
-      setStatus,
-      message,
-      isSubmitting,
-      isButtonDisabled,
-      fileInputRef,
-      handleImageChange,
-      handleSubmit,
-    } = useMapForm();
+const MapForm = ({ mapData, onClose }) => {
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    source,
+    setSource,
+    extradata,
+    setExtraData,
+    category,
+    setCategory,
+    status,
+    setStatus,
+    message,
+    isSubmitting,
+    isButtonDisabled,
+    fileInputRef,
+    handleImageChange,
+    handleSubmit,
+  } = useMapForm(mapData); // Pasar mapData al hook personalizado para inicializar valores
+
+  useEffect(() => {
+    if (mapData) {
+      setTitle(mapData.title);
+      setDescription(mapData.description);
+      setSource(mapData.source);
+      setExtraData(mapData.extradata);
+      setCategory(mapData.category);
+      setStatus(mapData.status);
+    }
+  }, [
+    mapData,
+    setTitle,
+    setDescription,
+    setSource,
+    setExtraData,
+    setCategory,
+    setStatus,
+  ]);
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-base-100 shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Agregar un nuevo mapa</h2>
-
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold mb-4">
+          {mapData ? "Editar Mapa" : "Agregar un nuevo mapa"}
+        </h2>
+        {onClose && (
+          <button onClick={onClose} className="btn btn-ghost btn-xs">
+            Cerrar
+          </button>
+        )}
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-control mb-4">
           <label htmlFor="titulo" className="label">
@@ -82,7 +110,7 @@ import { useMapForm } from '../hooks/useMapForm';
           />
         </div>
         <div className="form-control mb-4">
-          <label htmlFor="categpry" className="label">
+          <label htmlFor="category" className="label">
             <span className="label-text">Categoría</span>
           </label>
           <select
@@ -96,9 +124,11 @@ import { useMapForm } from '../hooks/useMapForm';
             <option value="" disabled>
               Seleccionar categoría
             </option>
-            <option value="Turismo">Turismo</option>
-            <option value="Geografía">Geografía</option>
-            <option value="Cultura">Cultura</option>
+            {categories.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
+            ))}
           </select>
         </div>
         <div className="form-control mb-4">
@@ -125,7 +155,7 @@ import { useMapForm } from '../hooks/useMapForm';
             type="file"
             className="file-input file-input-bordered file-input-secondary w-full"
             onChange={handleImageChange}
-            required
+            required={!mapData} // Solo requerido si estamos agregando un nuevo mapa
           />
         </div>
         {message.text && (
@@ -148,7 +178,11 @@ import { useMapForm } from '../hooks/useMapForm';
           }`}
           disabled={isButtonDisabled}
         >
-          {isSubmitting ? "Enviando..." : "Agregar Mapa"}
+          {isSubmitting
+            ? "Enviando..."
+            : mapData
+            ? "Guardar Cambios"
+            : "Agregar Mapa"}
         </button>
       </form>
     </div>

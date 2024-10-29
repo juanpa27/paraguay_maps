@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   createColumnHelper,
   useReactTable,
@@ -8,49 +8,22 @@ import {
   getPaginationRowModel,
   flexRender,
 } from '@tanstack/react-table';
-import { supabase } from "../config/supabaseClient";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from 'lucide-react';
+import { useOutletContext } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, Edit } from 'lucide-react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import { useMapsData } from '../hooks/useMapsData';
 
 const MapsTable = () => {
-  const [data, setData] = useState([]);
-  const [sorting, setSorting] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState("");
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const { data: mapsData, error } = await supabase.from("maps").select("*");
-    if (error) {
-      console.error("Error fetching data:", error);
-    } else {
-      setData(mapsData);
-    }
-  };
-
-  const handleEdit = (map) => {
-    console.log("Editar:", map);
-  };
-
-  const handleToggleStatus = async (map) => {
-    const { error } = await supabase
-      .from("maps")
-      .update({ status: !map.status })
-      .eq("id", map.id);
-
-    if (error) {
-      console.error("Error updating status:", error);
-    } else {
-      setData((prevData) =>
-        prevData.map((item) =>
-          item.id === map.id ? { ...item, status: !map.status } : item
-        )
-      );
-    }
-  };
+  const { handleEdit } = useOutletContext(); // Obtén la función handleEdit del contexto del Outlet
+  const {
+    data,
+    sorting,
+    globalFilter,
+    setSorting,
+    setGlobalFilter,
+    toggleStatus,
+  } = useMapsData();
 
   const columnHelper = createColumnHelper();
 
@@ -90,12 +63,13 @@ const MapsTable = () => {
             <button
               className="btn btn-primary btn-xs"
               onClick={() => handleEdit(map)}
+              aria-label="Editar"
             >
-              Editar
+              <Edit className="w-4 h-4" />
             </button>
             <button
               className={`btn btn-xs ${map.status ? 'btn-error' : 'btn-success'}`}
-              onClick={() => handleToggleStatus(map)}
+              onClick={() => toggleStatus(map)}
             >
               {map.status ? "Desactivar" : "Activar"}
             </button>
@@ -153,10 +127,7 @@ const MapsTable = () => {
                             onClick={header.column.getToggleSortingHandler()}
                             className="cursor-pointer select-none flex items-center"
                           >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
                             <span className="ml-2">
                               {{
                                 asc: " 🔼",
@@ -217,8 +188,7 @@ const MapsTable = () => {
             <span className="flex items-center gap-1">
               <div>Página</div>
               <strong>
-                {table.getState().pagination.pageIndex + 1} de{' '}
-                {table.getPageCount()}
+                {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
               </strong>
             </span>
             <select

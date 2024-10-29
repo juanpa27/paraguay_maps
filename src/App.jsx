@@ -10,6 +10,9 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedRoute from "./components/ProtectedRoute"; 
+import AddMapPage from "./pages/AddMapPage";
+import MapsPage from "./pages/MapsPage";
+
 import "./index.css";
 
 function App() {
@@ -26,16 +29,19 @@ function App() {
           path="/unauthorized"
           element={<Unauthorized />}
         />
-        {/* Ruta protegida para la página de administración */}
-        <Route
-          path="/admin/*"
+       <Route
+          path="/admin"
           element={
             <ProtectedRoute>
               <Admin />
             </ProtectedRoute>
           }
-        />
-        {/* Ruta principal */}
+        >
+          {/* Rutas anidadas dentro de /admin */}
+          <Route index element={<MapsPage />} />
+          <Route path="maps" element={<MapsPage />} />
+          <Route path="add-map" element={<AddMapPage />} />
+        </Route>
         <Route
           path="/"
           element={

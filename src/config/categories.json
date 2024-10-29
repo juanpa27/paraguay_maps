@@ -1,0 +1,12 @@
+[
+    { "value": "Turismo", "label": "Turismo" },
+    { "value": "Geografía", "label": "Geografía" },
+    { "value": "Cultura", "label": "Cultura" },
+    { "value": "Deportes", "label": "Deportes" },
+    { "value": "Economía", "label": "Economía" },
+    { "value": "Población", "label": "Población" },
+    { "value": "Infraestructura", "label": "Infraestructura" },
+    { "value": "Agropecuario", "label": "Agropecuario" },
+    { "value" : "Ramdom", "label": "Ramdom" }
+  ]
+  
