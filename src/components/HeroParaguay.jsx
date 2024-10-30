@@ -3,8 +3,16 @@ import { motion } from 'framer-motion';
 import Logo from './Logo';
 
 export default function HeroParaguay() {
+  
+  const handleScrollToMaps = () => {
+    const mapsLinksElement = document.getElementById('mapslinks');
+    if (mapsLinksElement) {
+      mapsLinksElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="hero min-h-screen bg-gradient-to-br from-base-200 to-base-300">
+    <section className="hero min-h-screen bg-gradient-to-br from-base-200 to-base-300 mb-20 mt-10">
       <div className="hero-content flex-col lg:flex-row-reverse items-center">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -37,14 +45,15 @@ export default function HeroParaguay() {
           <h1 className="text-4xl lg:text-5xl font-bold text-primary mb-4">
             Descubre Paraguay
           </h1>
-          <p className="py-4 lg:py-6 text-base-content text-lg">
-            Explora los mapas de Paraguay, conoce sus distritos, ciudades y paisajes.
-            Sumérgete en la riqueza geográfica y cultural que este maravilloso país tiene para ofrecer.
+          <p className="py-4 lg:py-6 text-base-content text-lg text-pretty"> 
+          Explora una amplia variedad de mapas de Paraguay que incluyen datos sobre economía, deportes, infraestructura, cultura, geografía y mucho más.
+          Sumérgete en el conocimiento y descubre los aspectos más representativos del país en cada una de sus regiones y categorías.
           </p>
           <motion.button 
             className="btn btn-primary"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleScrollToMaps}
             aria-label="Explorar mapas de Paraguay"
           >
             Explorar Mapas

@@ -51,7 +51,7 @@ function App() {
               <main className="flex-grow">
                 <MapLinks />
                 <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
-                  <MapList />
+                  
                 </div>
               </main>
               <Footer />
