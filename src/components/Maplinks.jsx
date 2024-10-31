@@ -12,8 +12,11 @@ import {
   Shuffle,
 } from "lucide-react";
 import categories from "../config/categories.json";
+import { useNavigate } from "react-router-dom";
 
 export default function MapLinks() {
+  const navigate = useNavigate();
+
   const categoryIcons = {
     Turismo: Palmtree,
     Geografía: MapPin,
@@ -83,7 +86,7 @@ export default function MapLinks() {
     },
   ];
 
-  return (
+    return (
     <div id="mapslinks" className="flex flex-wrap justify-center gap-6 p-4">
       {categories.map((category, index) => {
         const Icon = categoryIcons[category.value] || Mountain;
@@ -93,9 +96,8 @@ export default function MapLinks() {
             key={category.value}
             className={`card w-80 ${colorScheme.bg} ${colorScheme.text} shadow-xl 
                         transform transition-all duration-300 ease-in-out 
-                        hover:scale-105 hover:shadow-2xl ${colorScheme.hover}
-                        animate-fade-in-up`}
-            style={{ animationDelay: `${index * 150}ms` }}
+                        hover:scale-105 hover:shadow-2xl ${colorScheme.hover}`}
+            onClick={() => navigate(`/category/${category.value}`)} // Redirige a la página de categoría
           >
             <div className="card-body">
               <h2 className="card-title text-2xl font-bold mb-4 flex items-center">
@@ -108,8 +110,8 @@ export default function MapLinks() {
               <div className="card-actions justify-end mt-4">
                 <button
                   className={`btn btn-outline ${colorScheme.text} border-2 ${colorScheme.outline} 
-                                    hover:bg-white hover:text-gray-900
-                                    btn-sm lg:btn-md hover:scale-110 transition-transform duration-200`}
+                                hover:bg-white hover:text-gray-900
+                                btn-sm lg:btn-md hover:scale-110 transition-transform duration-200`}
                 >
                   Ver Mapas
                 </button>
