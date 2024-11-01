@@ -13,12 +13,15 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AddMapPage from "./pages/AddMapPage";
 import MapsPage from "./pages/MapsPage";
 import CategoryPage from "./pages/CategoryPage";
+import RouteChangeTracker from "./components/RouteChangeTracker";
 
 import "./index.css";
 
 function App() {
+  
   return (
     <Router>
+       <RouteChangeTracker />
       <Routes>
         <Route path="/login-admin-secret" element={<Login />} />
         <Route path="/unauthorized" element={<Unauthorized />} />

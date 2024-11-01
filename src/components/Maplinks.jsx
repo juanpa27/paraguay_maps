@@ -29,90 +29,30 @@ export default function MapLinks() {
     Ramdom: Shuffle,
   };
 
-  const categoryColors = [
-    {
-      bg: "bg-blue-600",
-      text: "text-white",
-      hover: "hover:bg-blue-700",
-      outline: "border-blue-300",
-    },
-    {
-      bg: "bg-green-600",
-      text: "text-white",
-      hover: "hover:bg-green-700",
-      outline: "border-green-300",
-    },
-    {
-      bg: "bg-purple-600",
-      text: "text-white",
-      hover: "hover:bg-purple-700",
-      outline: "border-purple-300",
-    },
-    {
-      bg: "bg-red-600",
-      text: "text-white",
-      hover: "hover:bg-red-700",
-      outline: "border-red-300",
-    },
-    {
-      bg: "bg-yellow-500",
-      text: "text-gray-900",
-      hover: "hover:bg-yellow-600",
-      outline: "border-yellow-300",
-    },
-    {
-      bg: "bg-indigo-600",
-      text: "text-white",
-      hover: "hover:bg-indigo-700",
-      outline: "border-indigo-300",
-    },
-    {
-      bg: "bg-pink-600",
-      text: "text-white",
-      hover: "hover:bg-pink-700",
-      outline: "border-pink-300",
-    },
-    {
-      bg: "bg-gray-600",
-      text: "text-white",
-      hover: "hover:bg-gray-700",
-      outline: "border-gray-300",
-    },
-    {
-      bg: "bg-teal-600",
-      text: "text-white",
-      hover: "hover:bg-teal-700",
-      outline: "border-teal-300",
-    },
-  ];
-
-    return (
+  return (
     <div id="mapslinks" className="flex flex-wrap justify-center gap-6 p-4">
-      {categories.map((category, index) => {
+      {categories.map((category) => {
         const Icon = categoryIcons[category.value] || Mountain;
-        const colorScheme = categoryColors[index % categoryColors.length];
         return (
           <div
             key={category.value}
-            className={`card w-80 ${colorScheme.bg} ${colorScheme.text} shadow-xl 
-                        transform transition-all duration-300 ease-in-out 
-                        hover:scale-105 hover:shadow-2xl ${colorScheme.hover}`}
-            onClick={() => navigate(`/category/${category.value}`)} // Redirige a la página de categoría
+            className="card w-80 bg-secondary text-secondary-content shadow-xl hover:shadow-2xl transform transition-all duration-300 ease-in-out hover:scale-105"
+            onClick={() => navigate(`/category/${category.value}`)}
           >
-            <div className="card-body">
-              <h2 className="card-title text-2xl font-bold mb-4 flex items-center">
-                <Icon className="w-8 h-8 mr-2" />
-                {category.label}
-              </h2>
-              <p className="text-base opacity-90">
+            <div className="card-body p-6">
+              <div className="flex flex-col items-center mb-4">
+                <div className="w-32 h-32 mb-4 rounded-full bg-base-100 bg-opacity-10 flex items-center justify-center">
+                  <Icon className="w-24 h-24" strokeWidth={1.5} />
+                </div>
+                <h2 className="card-title text-2xl font-bold text-center">
+                  {category.label}
+                </h2>
+              </div>
+              <p className="text-base text-center">
                 Explora nuestros mapas de {category.label.toLowerCase()}.
               </p>
-              <div className="card-actions justify-end mt-4">
-                <button
-                  className={`btn btn-outline ${colorScheme.text} border-2 ${colorScheme.outline} 
-                                hover:bg-white hover:text-gray-900
-                                btn-sm lg:btn-md hover:scale-110 transition-transform duration-200`}
-                >
+              <div className="card-actions justify-center mt-4">
+                <button className="btn btn-primary btn-outline hover:btn-primary transition-colors duration-300 w-full">
                   Ver Mapas
                 </button>
               </div>
